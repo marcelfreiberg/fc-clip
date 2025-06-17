@@ -1,0 +1,16 @@
+__py
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw
+*.pyzwz
+
+fcclip/modeling/pixel_decoder/ops/MultiScaleDeformableAttention.egg-info
+fcclip/modeling/pixel_decoder/ops/build
+
+output/
+wandb/
