@@ -1,0 +1,11 @@
+0:static obstacle,background,structure,trees,forest,vegetation,buildings,urban structures,architecture,embankment
+1:water,ocean,lake,sea
+2:sky,clouds,sky,atmosphere
+3:boat/ship,vessel,watercraft,ship,boat
+4:row boats,dinghy,skiff,rowboat,paddle boat
+5:paddle board,sup,board,surfboard,stand-up paddle
+6:buoy,beacon,marker,float,mooring
+7:swimmer,person swimming,human,diver,swimmer
+8:animal,bird,seal,mammal,animal
+9:float,inflatable,raft,device,float
+10:other

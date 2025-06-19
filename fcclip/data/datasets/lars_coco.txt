@@ -1,0 +1,11 @@
+0:Static Obstacle
+1:Water
+2:Sky
+3:Boat/ship
+4:Row boats
+5:Paddle board
+6:Buoy
+7:Swimmer
+8:Animal
+9:Float
+10:Other

@@ -27,5 +27,8 @@ from . import (
     register_coco_instance,
     register_ade20k_instance,
     register_coco_stuff_164k,
+    register_lars_coco_instance,
+    register_lars_coco_stuff,
+    register_lars_coco_panoptic_annos_semseg,
     openseg_classes
 )

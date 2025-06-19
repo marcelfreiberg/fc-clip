@@ -291,8 +291,24 @@ def setup(args):
     add_deeplab_config(cfg)
     add_maskformer2_config(cfg)
     add_fcclip_config(cfg)
+    
+    # Store tag for run identification
+    cfg._TAG = getattr(args, 'tag', None)
+    
+    # Set run name based on config file and optionally tag
+    base_name = f"fcclip-{os.path.basename(args.config_file).split('.')[0]}"
+    if cfg._TAG:
+        cfg.RUN_NAME = f"{base_name}-{cfg._TAG}"
+    else:
+        cfg.RUN_NAME = base_name
+    
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
+    
+    # Modify OUTPUT_DIR to include tag BEFORE freezing config
+    if cfg._TAG:
+        cfg.OUTPUT_DIR = os.path.join(cfg.OUTPUT_DIR, cfg._TAG)
+    
     cfg.freeze()
     default_setup(cfg, args)
     # Setup logger for "fcclip" module
@@ -335,7 +351,11 @@ def main(args):
 
 
 if __name__ == "__main__":
-    args = default_argument_parser().parse_args()
+    # Add tag argument for organizing runs
+    parser = default_argument_parser()
+    parser.add_argument("--tag", type=str, default=None, help="Tag to identify this run")
+    
+    args = parser.parse_args()
     print("Command Line Args:", args)
     launch(
         main,

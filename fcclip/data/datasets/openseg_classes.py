@@ -2339,6 +2339,19 @@ COCO_STUFF_CATEGORIES = [
     {"id": 182, "name": "wood", "supercategory": "solid"},
 ]
 
+LARS_COCO_CATEGORIES = [
+    {"id": 1, "name": "Static Obstacle", "isthing": 0, "color": [220, 20, 60]},
+    {"id": 3, "name": "Water", "isthing": 0, "color": [119, 11, 32]},
+    {"id": 5, "name": "Sky", "isthing": 0, "color": [0, 0, 142]},
+    {"id": 11, "name": "Boat/ship", "isthing": 1, "color": [0, 0, 230]},
+    {"id": 12, "name": "Row boats", "isthing": 1, "color": [106, 0, 228]},
+    {"id": 13, "name": "Paddle board", "isthing": 1, "color": [0, 60, 100]},
+    {"id": 14, "name": "Buoy", "isthing": 1, "color": [0, 80, 100]},
+    {"id": 15, "name": "Swimmer", "isthing": 1, "color": [0, 0, 70]},
+    {"id": 16, "name": "Animal", "isthing": 1, "color": [0, 0, 192]},
+    {"id": 17, "name": "Float", "isthing": 1, "color": [250, 170, 30]},
+    {"id": 19, "name": "Other", "isthing": 1, "color": [100, 170, 30]},
+]
 
 def get_coco_categories_with_prompt_eng():
     COCO_CATEGORIES_ = copy.deepcopy(COCO_CATEGORIES)
@@ -2468,6 +2481,23 @@ def get_mapillary_vistas_categories_with_prompt_eng():
         mapillary_idx += 1
     return MAPILLARY_VISTAS_SEM_SEG_CATEGORIES_
 
+def get_lars_coco_categories_with_prompt_eng():
+    LARS_COCO_CATEGORIES_ = copy.deepcopy(LARS_COCO_CATEGORIES)
+    lars_coco_id_names = open('./fcclip/data/datasets/lars_coco_with_prompt_eng.txt').read().splitlines()
+    
+    for line in lars_coco_id_names:
+        idx, name = line.split(':')
+        idx = int(idx)
+        if name == "invalid_class_id":
+            continue
+        
+        # The file index corresponds to the position in LARS_COCO_CATEGORIES list
+        if idx < len(LARS_COCO_CATEGORIES_):
+            LARS_COCO_CATEGORIES_[idx]["name"] = name
+            
+    return LARS_COCO_CATEGORIES_
+
+
 if __name__ == "__main__":
     get_coco_categories_with_prompt_eng()
     get_ade20k_categories_with_prompt_eng()
@@ -2478,3 +2508,4 @@ if __name__ == "__main__":
     get_pascal_ctx_59_categories_with_prompt_eng()
     get_mapillary_vistas_categories_with_prompt_eng()
     get_coco_stuff_categories_with_prompt_eng()
+    get_lars_coco_categories_with_prompt_eng()
