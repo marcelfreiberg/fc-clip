@@ -2483,17 +2483,17 @@ def get_mapillary_vistas_categories_with_prompt_eng():
 
 def get_lars_coco_categories_with_prompt_eng():
     LARS_COCO_CATEGORIES_ = copy.deepcopy(LARS_COCO_CATEGORIES)
-    lars_coco_id_names = open('./fcclip/data/datasets/lars_coco_with_prompt_eng.txt').read().splitlines()
+    # lars_coco_id_names = open('./fcclip/data/datasets/lars_coco_with_prompt_eng.txt').read().splitlines()
     
-    for line in lars_coco_id_names:
-        idx, name = line.split(':')
-        idx = int(idx)
-        if name == "invalid_class_id":
-            continue
+    # for line in lars_coco_id_names:
+    #     idx, name = line.split(':')
+    #     idx = int(idx)
+    #     if name == "invalid_class_id":
+    #         continue
         
-        # The file index corresponds to the position in LARS_COCO_CATEGORIES list
-        if idx < len(LARS_COCO_CATEGORIES_):
-            LARS_COCO_CATEGORIES_[idx]["name"] = name
+    #     # The file index corresponds to the position in LARS_COCO_CATEGORIES list
+    #     if idx < len(LARS_COCO_CATEGORIES_):
+    #         LARS_COCO_CATEGORIES_[idx]["name"] = name
             
     return LARS_COCO_CATEGORIES_
 
