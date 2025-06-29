@@ -18,8 +18,6 @@ MODEL:
     GEOMETRIC_ENSEMBLE_ALPHA: 0.4
     GEOMETRIC_ENSEMBLE_BETA: 0.8
   MASK_FORMER:
-    NUM_OBJECT_QUERIES: 50
-    TRAIN_NUM_POINTS: 4096
     TEST:
       SEMANTIC_ON: True
       PANOPTIC_ON: True
@@ -27,7 +25,7 @@ MODEL:
 
 # Training configuration
 SOLVER:
-  IMS_PER_BATCH: 8
+  IMS_PER_BATCH: 16
   BASE_LR: 0.0001
   MAX_ITER: 8000
   LR_SCHEDULER_NAME: WarmupPolyLR
@@ -43,12 +41,6 @@ SOLVER:
   AMP:
     ENABLED: True
 
-INPUT:
-  DATASET_MAPPER_NAME: "coco_panoptic_lsj"
-  IMAGE_SIZE: 384
-  MIN_SCALE: 0.1
-  MAX_SCALE: 1.5
-
 DATASETS:
   TRAIN: ("lars_coco_train_panoptic",)
   TEST: ("lars_coco_val_panoptic",)
@@ -58,6 +50,6 @@ TEST:
 
 DATALOADER:
   FILTER_EMPTY_ANNOTATIONS: True
-  NUM_WORKERS: 2
+  NUM_WORKERS: 4
 
-OUTPUT_DIR: ./output/lars_coco_training
+OUTPUT_DIR: /data/mfreiberg/output/fcclip
