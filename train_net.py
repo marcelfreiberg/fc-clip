@@ -384,11 +384,45 @@ def main(args):
         DetectionCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(
             cfg.MODEL.WEIGHTS, resume=args.resume
         )
-        res = Trainer.test(cfg, model)
-        if cfg.TEST.AUG.ENABLED:
-            res.update(Trainer.test_with_TTA(cfg, model))
+        
+        # Set up writers for eval-only mode (especially for WandB)
         if comm.is_main_process():
-            verify_results(cfg, res)
+            writers = build_writers(cfg, 1, cfg._WANDB_ENABLED, cfg._WANDB_RESUME)
+        else:
+            writers = None
+        
+        # Create EventStorage context for eval-only mode
+        from detectron2.utils.events import EventStorage
+        with EventStorage(start_iter=0) as storage:
+            with WriterStack(logger=logging.getLogger("fcclip"), writers=writers):
+                res = Trainer.test(cfg, model)
+                if cfg.TEST.AUG.ENABLED:
+                    res.update(Trainer.test_with_TTA(cfg, model))
+                
+                # Log evaluation results to WandB if enabled
+                if res and comm.is_main_process() and writers:
+                    from detectron2.evaluation.testing import flatten_results_dict
+                    flattened_results = flatten_results_dict(res)
+                    
+                    # Filter and convert values to float for logging
+                    metrics_to_log = {}
+                    for k, v in flattened_results.items():
+                        try:
+                            metrics_to_log[k] = float(v)
+                        except Exception as e:
+                            logging.getLogger("fcclip").warning(f"Could not convert metric {k}={v} to float: {e}")
+                    
+                    if metrics_to_log:
+                        storage.put_scalars(**metrics_to_log, smoothing_hint=False)
+                        
+                        # Trigger writers to log the metrics
+                        for writer in writers:
+                            if hasattr(writer, 'write'):
+                                writer.write()
+                
+                if comm.is_main_process():
+                    verify_results(cfg, res)
+        
         return res
 
     trainer = Trainer(cfg)
