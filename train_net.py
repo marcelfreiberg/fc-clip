@@ -79,7 +79,7 @@ def build_writers(cfg, max_iter, wandb_enabled=False, wandb_resume=False):
     
     # Add WandbWriter if enabled
     if wandb_enabled:
-        project = "FCCLIP"
+        project = "fc-clip"
         run_name = getattr(cfg, 'RUN_NAME', f'fcclip-{cfg.MODEL.META_ARCHITECTURE}')
         writers.append(
             WandbWriter(

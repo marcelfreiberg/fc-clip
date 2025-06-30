@@ -13,4 +13,5 @@ fcclip/modeling/pixel_decoder/ops/MultiScaleDeformableAttention.egg-info
 fcclip/modeling/pixel_decoder/ops/build
 
 output/
+output_back/
 wandb/
